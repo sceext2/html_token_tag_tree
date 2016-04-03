@@ -1,0 +1,8 @@
+
+*.py[cd]
+__pycache__/
+
+/tmp/
+/cache/
+
+
