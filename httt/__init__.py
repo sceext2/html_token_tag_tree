@@ -33,6 +33,7 @@ create_tree = entry.create_tree
 
 # other exports functions
 get_text_between = entry.get_text_between
+clean_html_text = entry.clean_html_text
 
 # for DEBUG
 debug_split_token = split_token.split_token

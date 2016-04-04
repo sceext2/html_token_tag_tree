@@ -21,9 +21,11 @@
 '''
 httt : html_token_tag_tree
 
-version 0.1.1.1 test201604041718
+version 0.1.2.0 test201604042203
 
 '''
+
+import re
 
 from . import build_tree
 from .split_token import split_token
@@ -60,6 +62,40 @@ def get_text_between(tag_a, tag_b):
     for i in host.token_list[start_index:end_index]:
         if i.type == 'text':
             out.append(i.text)
+    return out
+
+def clean_html_text(raw, strip=False):
+    '''
+    clean raw text token with html text rules
+    
+    replace \n \t etc. to ' ' (space), etc. 
+    
+        raw	str or list ([] str)
+    
+    -> str or [] str
+    '''
+    if isinstance(raw, str):
+        return _clean_one_html_text(raw)
+    out = [_clean_one_html_text(i) for i in raw]
+    if strip:
+        out = _strip_html_text(out)
+    return out
+
+def _clean_one_html_text(raw):
+    # replace chars to ' ' space (\r, \n, tab)
+    out = raw.replace('\r', '\n').replace('\n', ' ').replace('\t', ' ')
+    # NOTE replace Chinese ' ' big space to space
+    out = out.replace('　', ' ')
+    # replace multi spaces to only one space
+    out = (' ').join(re.split(' +', out))
+    return out	# clean done
+
+def _strip_html_text(raw):
+    out = []
+    for i in raw:
+        one = i.strip()
+        if one != '':
+            out.append(one)
     return out
 
 # end entry.py

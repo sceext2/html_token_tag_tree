@@ -5,7 +5,6 @@ from . import css_selector
 class httt_tree(object):
     '''
     html node (element) object
-    
     '''
     def __init__(self):
         
@@ -125,6 +124,32 @@ class httt_tree(object):
         if len(self.children) > 0:
             out['children'] = [c.export() for c in self.children]
         return out	# export done
+    
+    # for traverse tree
+    
+    def _get_sibling(self, index_delta=0):
+        p, i = self.parent, self.index
+        if p == None:
+            return None
+        i += index_delta
+        if (i >= 0) and (i < len(p.children)):
+            return p.children[i]
+        return None
+    
+    def prev(self):
+        '''
+        get previous sibling
+        
+        -> httt_tree or None
+        '''
+        return self._get_sibling(-1)
+    def next(self):
+        '''
+        get next sibling
+        
+        -> httt_tree or None
+        '''
+        return self._get_sibling(1)
     
     # NOTE important function, select sub-node with CSS selector
     def find(self, selector):
