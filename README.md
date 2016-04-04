@@ -2,8 +2,8 @@
    - html_token_tag_tree
   -->
 
-
-# html_token_tag_tree : A simple read-only html static parse library
+# html_token_tag_tree
+A simple read-only html static parse library. 
 
 **html_token_tag_tree** (*httt*) use a simple method to parse html and
 build the html tree struct. 
@@ -31,6 +31,7 @@ There is no functions to edit the html tree.
 
 The following examples will use this html text: (*test/t1.html*)
 
+> ```
 > <!DOCTYPE html>
 > <html>
 > <head>
@@ -61,6 +62,7 @@ The following examples will use this html text: (*test/t1.html*)
 > 	</div></div></div></section>
 > </body>
 > </html>
+> ```
 
 ### 1. import *httt* and raw_html text
 
@@ -177,9 +179,9 @@ body	{
 >>> 
 ```
 
-#### 4.1 single CSS selector
+#### 4.1. single CSS selector
 
-+ 1. *\**
++ **1. `*`**
   
   ```
   >>> print(head.html())
@@ -209,7 +211,7 @@ body	{
   >>> 
   ```
 
-+ 2. *element*
++ **2. `element`**
   
   ```
   >>> link = head.find('link')
@@ -220,7 +222,7 @@ body	{
   >>> 
   ```
 
-+ 3. *#id*
++ **3. `#id`**
   
   ```
   >>> e = root.find('#test4')
@@ -231,7 +233,7 @@ body	{
   >>> 
   ```
 
-+ 4. *.class*
++ **4. `.class`**
   
   ```
   >>> e = root.find('.test')
@@ -244,7 +246,7 @@ body	{
   >>> 
   ```
 
-+ 5. *[attribute]* *[attribute=value]*
++ **5. `[attribute]` `[attribute=value]`**
   
   ```
   >>> a = root.find('a[href]')
@@ -260,9 +262,9 @@ body	{
   >>> 
   ```
 
-#### 4.2 combination selector
+#### 4.2. combination selector
 
-+ 1. *element element*
++ **1. `element element`**
   
   ```
   >>> print(body.html())
@@ -287,7 +289,7 @@ body	{
   >>> 
   ```
 
-+ 2. *element>element*
++ **2. `element>element`**
   
   ```
   >>> div = body.find('#main > div')
@@ -298,7 +300,7 @@ body	{
   >>> 
   ```
 
-+ 3. *element,element*
++ **3. `element,element`**
   
   ```
   >>> e = body.find('a, input')
@@ -311,8 +313,8 @@ body	{
   >>> 
   ```
 
-+ 4. 
-
++ **4. ` `**
+  
   ```
   >>> len(body.find('div'))
   3
@@ -326,7 +328,7 @@ body	{
   >>> 
   ```
 
-#### 4.3 a complex example
+#### 4.3. a complex example
 
 ```
 >>> e = root.find('#main div.test > * a[href], input[type=text]')
