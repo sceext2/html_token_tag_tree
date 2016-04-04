@@ -8,7 +8,7 @@ from .tree import httt_tree
 def filter_tag_token(raw_list):
     '''
     only keep tag needed by build_tree, ignore all other tag (token) types
-    only keey tag type: 
+    only keep tag type: 
     
     + tag.start
     + tag.startclose
@@ -110,7 +110,7 @@ def close_tag(bci, tag_name, tag, match=False):
     for i in range(len(bci.path) - 1, to_close_i, -1):
         _do_close_tag(bci, tag)
     # close current tag
-    _do_close_tag(bci, tag, match=True)
+    _do_close_tag(bci, tag, match=match)
     # close done
 
 # Build tree Control Info (bci)

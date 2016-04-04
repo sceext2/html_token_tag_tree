@@ -75,7 +75,10 @@ def clean_html_text(raw, strip=False):
     -> str or [] str
     '''
     if isinstance(raw, str):
-        return _clean_one_html_text(raw)
+        out = _clean_one_html_text(raw)
+        if strip:
+            out = out.strip()
+        return out
     out = [_clean_one_html_text(i) for i in raw]
     if strip:
         out = _strip_html_text(out)

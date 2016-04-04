@@ -4,6 +4,7 @@
 
 # html_token_tag_tree
 A simple read-only html static parse library. 
+(`version 0.1.2.0 test201604042203`)
 
 **html_token_tag_tree** (*httt*) use a simple method to parse html and
 build the html tree struct. 
