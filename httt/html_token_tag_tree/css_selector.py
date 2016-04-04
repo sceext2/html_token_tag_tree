@@ -22,10 +22,10 @@ def filter_children(raw_list, worker=lambda x: False):
         out += one
     return out
 
-def filter_tree(root, worker=lambda x: True):
+def filter_tree(root, worker=lambda x: True, include_root=True):
     out = []
     # filter root first
-    if worker(root):
+    if include_root and worker(root):
         out.append(root)
     # filter each sub-tree
     for i in root.children:
@@ -85,8 +85,10 @@ def select_attr(node, name, value=None):
 
 # execute CSS select process
 
-def do_one_select(raw_set, action):
+def do_one_select(raw_set, action, tree_include_root=False):
     '''
+    
+    NOTE default not include tree root
     
     NOTE action
         {
@@ -120,7 +122,7 @@ def do_one_select(raw_set, action):
     else:	# multi == 'tree'
         out = []
         for i in raw_set:
-            one = filter_tree(i, worker=worker)
+            one = filter_tree(i, worker=worker, include_root=tree_include_root)
             out += one
     return out	# done
 
