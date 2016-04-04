@@ -109,14 +109,6 @@ class httt_tree(object):
                 out.append(i.text)
         return out	# done
     
-    def format(self):
-        '''
-        output (print) html text with some format
-        
-        -> str
-        '''
-        pass	# TODO not support this here now
-    
     # for DEBUG, TODO not output raw token (tag) info, TODO not include text token info
     def export(self):
         '''
