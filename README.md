@@ -5,7 +5,7 @@
 
 # html_token_tag_tree
 A simple read-only html static parse library. 
-(`version 0.1.2.0 test201604042203`)
+(`httt version 0.1.3.0 test201604051914`)
 
 **html_token_tag_tree** (*httt*) use a simple method to parse html and
 build the html tree struct. 
@@ -16,7 +16,7 @@ Then you can traverse the tree and get information.
 
 + Traverse the tree with a very simple API. 
 
-+ Simple CSS Selector support. 
++ Support 14 useful CSS (1, 2, 3) selectors! 
 
 + Pure python3 (*tested on python 3.5.1*), without dependencies. 
   *httt* only use the python standard library. 
@@ -30,6 +30,9 @@ There is no functions to edit the html tree.
 
 
 ## Usage (API)
+
+(Full API document of *httt* please see 
+[`doc/api.md`](https://github.com/sceext2/html_token_tag_tree/blob/master/doc/api.md). )
 
 The following examples will use this html text: (*test/t1.html*)
 
@@ -66,7 +69,7 @@ The following examples will use this html text: (*test/t1.html*)
 > </html>
 > ```
 
-### 1. import *httt* and raw_html text
++ **1. import *httt* and raw_html text**
 
 ```
 $ python
@@ -80,7 +83,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> 
 ```
 
-### 2. parse html and create html tree
++ **2. parse html and create html tree**
 
 ```
 >>> root = httt.create_tree(raw_html)
@@ -89,7 +92,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> 
 ```
 
-### 3. traverse tree and get info
++ **3. traverse tree and get info**
 
 Use `.children` (or `.c`) and `.parent` (or `.p`)
 
@@ -125,41 +128,31 @@ True
 >>> 
 ```
 
-```
->>> print(head.html())
-<head>
-	<meta charset="utf-8" >
-<!-- a simple test page for html_token_tag_tree -->
-	<link rel="stylesheet" type="text/css" href="main.css" >
-	<title>simple test page</title>
-<style type="text/css" >
-body	{
-	background-color: #000;
-}
-</style>
-<script type="text/javascript" >
-	console.log('hello, world! ');
-</script>
-</head>
->>> print(head.inner_html())
 
-	<meta charset="utf-8" >
-<!-- a simple test page for html_token_tag_tree -->
-	<link rel="stylesheet" type="text/css" href="main.css" >
-	<title>simple test page</title>
-<style type="text/css" >
-body	{
-	background-color: #000;
-}
-</style>
-<script type="text/javascript" >
-	console.log('hello, world! ');
-</script>
+### CSS selector support
 
->>> 
-```
+*httt* support these CSS selectors: (14)
 
-### 4. CSS Selector
+| `#`  | Selector pattern | Example | CSS version |
+| :--: | :--------------- | :------ | :---------: |
+|  1 | `*`                  | `*`               | 2 |
+|  2 | `element`            | `p`               | 1 |
+|  3 | `#id`                | `#main`           | 1 |
+|  4 | `.class`             | `.show`           | 1 |
+|  5 | `[attribute]`        | `[href]`          | 2 |
+|  6 | `[attribute=value]`  | `[href=#]`        | 2 |
+|  7 | `[attribute~=value]` | `[title~=flower]` | 2 |
+|  8 | `[attribute^=value]` | `[src^=https]`    | 3 |
+|  9 | `[attribute$=value]` | `[src$=.png]`     | 3 |
+| 10 | `[attribute*=value]` | `[src*=player]`   | 3 |
+|    |                      |                   |   |
+| 11 |                      | `div.hide`        |   |
+| 12 | `selector selector`  | `div p`           | 1 |
+| 13 | `selector>selector`  | `#main > div`     | 2 |
+| 14 | `selector,selector`  | `div, a[href]`    | 1 |
+
+
+### Some examples
 
 ```
 >>> script = root.find('script')
@@ -172,8 +165,6 @@ body	{
 <httt.html_token_tag_tree.tree.httt_tree object at 0x7f2cb008ec50>
 >>> s.html()
 '<script type="text/javascript" >\n\tconsole.log(\'hello, world! \');\n</script>'
->>> s.inner_html()
-"\n\tconsole.log('hello, world! ');\n"
 >>> s.text()
 ["\n\tconsole.log('hello, world! ');\n"]
 >>> s.attr['type']
@@ -181,165 +172,19 @@ body	{
 >>> 
 ```
 
-#### 4.1. single CSS selector
-
-+ **1. `*`**
-  
-  ```
-  >>> print(head.html())
-  <head>
-  	<meta charset="utf-8" >
-  <!-- a simple test page for html_token_tag_tree -->
-  	<link rel="stylesheet" type="text/css" href="main.css" >
-  	<title>simple test page</title>
-  <style type="text/css" >
-  body	{
-  	background-color: #000;
-  }
-  </style>
-  <script type="text/javascript" >
-  	console.log('hello, world! ');
-  </script>
-  </head>
-  >>> e = head.find('*')
-  >>> len(e)
-  6
-  >>> e[0].name
-  'head'
-  >>> e[-1].name
-  'script'
-  >>> e[-2].name
-  'style'
-  >>> 
-  ```
-
-+ **2. `element`**
-  
-  ```
-  >>> link = head.find('link')
-  >>> len(link)
-  1
-  >>> link[0].html()
-  '<link rel="stylesheet" type="text/css" href="main.css" >'
-  >>> 
-  ```
-
-+ **3. `#id`**
-  
-  ```
-  >>> e = root.find('#test4')
-  >>> len(e)
-  1
-  >>> e[0].html()
-  '<a id="test4" ></a>'
-  >>> 
-  ```
-
-+ **4. `.class`**
-  
-  ```
-  >>> e = root.find('.test')
-  >>> len(e)
-  2
-  >>> e[0].html()
-  '<div class="test" ><div>\n\t\t<span class="test" ><a id="test4" ></a></span>\n\t\t<a href="#" >test 5</a>\n\t\t<input type="button" >\n\t\t<input type="text" >\n\t</div></div>'
-  >>> e[1].html()
-  '<span class="test" ><a id="test4" ></a></span>'
-  >>> 
-  ```
-
-+ **5. `[attribute]` `[attribute=value]`**
-  
-  ```
-  >>> a = root.find('a[href]')
-  >>> len(a)
-  1
-  >>> a[0].html()
-  '<a href="#" >test 5</a>'
-  >>> i = root.find('input[type=text]')
-  >>> len(i)
-  1
-  >>> i[0].html()
-  '<input type="text" >'
-  >>> 
-  ```
-
-#### 4.2. combination selector
-
-+ **1. `element element`**
-  
-  ```
-  >>> print(body.html())
-  <body>
-  	<h1>Hello, world !
-  	<p>Test p1 &lt;p&gt;
-  		<img src="logo.png" >
-  	<h2>test title
-  	<p> test p2 </p>
-  	<section id="main" ><div><div class="test" ><div>
-  		<span class="test" ><a id="test4" ></a></span>
-  		<a href="#" >test 5</a>
-  		<input type="button" >
-  		<input type="text" >
-  	</div></div></div></section>
-  </body>
-  >>> a = body.find('span a')
-  >>> len(a)
-  1
-  >>> a[0].html()
-  '<a id="test4" ></a>'
-  >>> 
-  ```
-
-+ **2. `element>element`**
-  
-  ```
-  >>> div = body.find('#main > div')
-  >>> len(div)
-  1
-  >>> div[0].html()
-  '<div><div class="test" ><div>\n\t\t<span class="test" ><a id="test4" ></a></span>\n\t\t<a href="#" >test 5</a>\n\t\t<input type="button" >\n\t\t<input type="text" >\n\t</div></div></div>'
-  >>> 
-  ```
-
-+ **3. `element,element`**
-  
-  ```
-  >>> e = body.find('a, input')
-  >>> len(e)
-  4
-  >>> e[0].html()
-  '<a id="test4" ></a>'
-  >>> e[-1].html()
-  '<input type="text" >'
-  >>> 
-  ```
-
-+ **4. ` `**
-  
-  ```
-  >>> len(body.find('div'))
-  3
-  >>> len(body.find('.test'))
-  2
-  >>> e = body.find('div.test')
-  >>> len(e)
-  1
-  >>> e[0].html()
-  '<div class="test" ><div>\n\t\t<span class="test" ><a id="test4" ></a></span>\n\t\t<a href="#" >test 5</a>\n\t\t<input type="button" >\n\t\t<input type="text" >\n\t</div></div>'
-  >>> 
-  ```
-
-#### 4.3. a complex example
+```
+>>> e = root.find('#test4')
+>>> len(e)
+1
+>>> e[0].html()
+'<a id="test4" ></a>'
+>>> 
+```
 
 ```
 >>> e = root.find('#main div.test > * a[href], input[type=text]')
->>> len(e)
-2
->>> e[0].html()
-'<a href="#" >test 5</a>'
->>> e[1].html()
-'<input type="text" >'
+>>> e.html()
+['<a href="#" >test 5</a>', '<input type="text" >']
 >>> 
 ```
 

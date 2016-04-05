@@ -6,7 +6,7 @@
 # API of html_token_tag_tree
 (*httt*: html_token_tag_tree)
 
-`httt version 0.1.2.1`
+`httt version 0.1.3.0`
 
 
 ## Contents
@@ -51,16 +51,14 @@
     + `+`
     + `-`
 
-+ **[4. Debug functions for `httt`](#4-debug-functions-for-httt)**
++ **[4. CSS selectors supported by `httt` (14)](4-css-selectors-supported-by-httt-14)**
+
++ **[5. Debug functions for `httt`](#5-debug-functions-for-httt)**
   
   + `httt.p()`
   + `httt.debug_split_token()`
   + `httt.debug_build_tree()`
   + `httt.debug_parse_selector()`
-
-
-## 0. TODO
-TODO
 
 
 ## 1. (module) `httt`
@@ -73,6 +71,15 @@ Entry module of html_token_tag_tree.
 <module 'httt' from '~/httt/httt/__init__.py'>
 >>> 
 ```
+
++ *Attribute* : `httt.version` <br />
+  version *str* of the *httt* library. 
+  
+  ```
+  >>> httt.version
+  'httt version 0.1.3.0 test201604051914'
+  >>> 
+  ```
 
 ### 1.1 `httt.create_tree()`
 ```
@@ -346,7 +353,7 @@ def html(self): -> str
 
 + *return* *str*
 
-Get the raw html text of this element. 
+Get the **raw** html text of this element. 
 
 ### 2.3 `httt_tree.inner_html()`
 ```
@@ -651,7 +658,28 @@ Example:
 ```
 
 
-## 4. Debug functions for `httt`
+## 4. CSS selectors supported by `httt` (14)
+
+| `#`  | Selector pattern | Example | CSS version |
+| :--: | :--------------- | :------ | :---------: |
+|  1 | `*`                  | `*`               | 2 |
+|  2 | `element`            | `p`               | 1 |
+|  3 | `#id`                | `#main`           | 1 |
+|  4 | `.class`             | `.show`           | 1 |
+|  5 | `[attribute]`        | `[href]`          | 2 |
+|  6 | `[attribute=value]`  | `[href=#]`        | 2 |
+|  7 | `[attribute~=value]` | `[title~=flower]` | 2 |
+|  8 | `[attribute^=value]` | `[src^=https]`    | 3 |
+|  9 | `[attribute$=value]` | `[src$=.png]`     | 3 |
+| 10 | `[attribute*=value]` | `[src*=player]`   | 3 |
+|    |                      |                   |   |
+| 11 |                      | `div.hide`        |   |
+| 12 | `selector selector`  | `div p`           | 1 |
+| 13 | `selector>selector`  | `#main > div`     | 2 |
+| 14 | `selector,selector`  | `div, a[href]`    | 1 |
+
+
+## 5. Debug functions for `httt`
 
 + `httt.p()` <br />
   ```
