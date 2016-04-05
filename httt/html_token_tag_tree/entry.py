@@ -21,8 +21,7 @@
 '''
 httt : html_token_tag_tree
 
-version 0.1.2.0 test201604042203
-
+https://github.com/sceext2/html_token_tag_tree
 '''
 
 import re
