@@ -1,24 +1,25 @@
 <!-- api.md, httt/doc/, httt : html_token_tag_tree
    - author: sceext <sceext@foxmail.com>
+   - https://github.com/sceext2/html_token_tag_tree
   -->
 
 # API of html_token_tag_tree
 (*httt*: html_token_tag_tree)
 
-`httt version 0.1.2.0`
+`httt version 0.1.2.1`
 
 
 ## Contents
 
-+ **[1. (module) `httt`](#1--module-httt)**
++ **[1. (module) `httt`](#1-module-httt)**
   
-  + **[1.1 `httt.create_tree()`](#1-1-httt-create_tree)**
-  + **[1.2 `httt.get_text_between()`](#1-2-httt-get_text_between)**
-  + **[1.3 `httt.clean_html_text()`](#1-3-httt-clean_html_text)**
+  + **[1.1 `httt.create_tree()`](#11-htttcreate_tree)**
+  + **[1.2 `httt.get_text_between()`](#12-htttget_text_between)**
+  + **[1.3 `httt.clean_html_text()`](#13-htttclean_html_text)**
 
-+ **[2. (object) `httt_tree`](#2--object-httt_tree)**
++ **[2. (object) `httt_tree`](#2-object-httt_tree)**
   
-  + **[2.1 Attributes](#2-1-Attributes)**
+  + **[2.1 Attributes](#21-attributes)**
     
     + `.name`
     + `.attr`
@@ -29,28 +30,28 @@
     + `._close_tag`
     + `._before_close`
   
-  + **[2.2 `.html()`](#2-2-httt_tree-html)**
-  + **[2.3 `.inner_html()`](#2-3-httt_tree-inner_html)**
-  + **[2.4 `.text()`](#2-4-httt_tree-text)**
-  + **[2.5 `.prev()`](#2-5-httt_tree-prev)**
-  + **[2.6 `.next()`](#2-6-httt_tree-next)**
-  + **[2.7 `.find()`](#2-7-httt_tree-find)**
-  + **[2.8 Debug function](#2-8-Debug-function)**
+  + **[2.2 `.html()`](#22-httt_treehtml)**
+  + **[2.3 `.inner_html()`](#23-httt_treeinner_html)**
+  + **[2.4 `.text()`](#24-httt_treetext)**
+  + **[2.5 `.prev()`](#25-httt_treeprev)**
+  + **[2.6 `.next()`](#26-httt_treenext)**
+  + **[2.7 `.find()`](#27-httt_treefind)**
+  + **[2.8 Debug function](#28-debug-function)**
     
     + `httt_tree.export()`
 
-+ **[3. (object) `httt_nodelist`](#3--object-httt_nodelist)**
++ **[3. (object) `httt_nodelist`](#3-object-httt_nodelist)**
   
-  + **[3.1 `httt_nodelist.text()`](#3-1-httt_nodelist-text)**
-  + **[3.2 `httt_nodelist.html()`](#3-2-httt_nodelist-html)**
-  + **[3.3 `httt_nodelist.name()`](#3-3-httt_nodelist-name)**
-  + **[3.4 `httt_nodelist.find()`](#3-4-httt_nodelist-find)**
-  + **[3.5 Set operations](#3-5-Set-operations)**
+  + **[3.1 `httt_nodelist.text()`](#31-httt_nodelisttext)**
+  + **[3.2 `httt_nodelist.html()`](#32-httt_nodelisthtml)**
+  + **[3.3 `httt_nodelist.name()`](#33-httt_nodelistname)**
+  + **[3.4 `httt_nodelist.find()`](#34-httt_nodelistfind)**
+  + **[3.5 Set operations](#35-set-operations)**
     
     + `+`
     + `-`
 
-+ **[4. Debug functions for `httt`](4. Debug functions for `httt`)**
++ **[4. Debug functions for `httt`](#4-debug-functions-for-httt)**
   
   + `httt.p()`
   + `httt.debug_split_token()`
