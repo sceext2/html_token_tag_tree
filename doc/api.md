@@ -51,7 +51,7 @@
     + `+`
     + `-`
 
-+ **[4. CSS selectors supported by `httt` (14)](4-css-selectors-supported-by-httt-14)**
++ **[4. CSS selectors supported by `httt` (14)](#4-css-selectors-supported-by-httt-14)**
 
 + **[5. Debug functions for `httt`](#5-debug-functions-for-httt)**
   
