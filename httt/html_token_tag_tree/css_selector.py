@@ -1,6 +1,7 @@
 # css_selector.py, httt/html_token_tag_tree/
 # support some CSS selectors for httt
 
+import re
 import functools
 
 from . import nodelist
@@ -69,17 +70,40 @@ def select_id(node, name):
         return True
     return False
 
-def select_attr(node, name, value=None):
+def select_attr(node, action):
     '''
-    selector eg.
-        a[href]
-        input[type=text]
+    (6) selector eg.
+        2	[attribute]		[target]	elements has attr 'target'
+        2	[attribute=value]	[target=_blank]	elements with attr target="_blank"
+        2	[attribute~=value]	[title~=flower]	attr include words 'flower'
+        3	[attribute^=value]	[src^=https]	attr value startswith 'https'
+        3	[attribute$=value]	[src$=.pdf]	attr value endswith '.pdf'
+        3	[attribute*=value]	[src*=44lan]	attr include str '44lan'
     '''
-    if not name in node.attr:
+    attr = node.attr
+    # check selector (action) type
+    _type = action['attr']
+    attr_name = action['name']
+    attr_value = None
+    if 'value' in action:
+        attr_value = action['value']
+    # check attr exist
+    if not attr_name in attr:
         return False
-    if value == None:
+    if attr_value == None:	# _type = ''
         return True
-    if value == node.attr[name]:
+    # check attr value
+    value = attr[attr_name]
+    if _type == '~':	# FIXME maybe BUG here
+        if attr_value in re.split('\W', value):
+            return True
+    elif (_type == '^') and (value.startswith(attr_value)):
+        return True
+    elif (_type == '$') and (value.endswith(attr_value)):
+        return True
+    elif (_type == '*') and (attr_value in value):
+        return True
+    elif (attr_value == value):	# _type == '='
         return True
     return False
 
@@ -92,34 +116,30 @@ def do_one_select(raw_set, action, tree_include_root=False):
     
     NOTE action
         {
-            'multi' : '', 	# can be 'tree', 'children', 'sub'
-            'single' : '', 	# can be 'all', 'element', 'class', 'id', 'attr'
+            'filter' : '', 	# can be 'tree', 'children', 'sub'
+            'type' : '', 	# can be 'all', 'element', 'class', 'id', 'attr'
             'name' : '', 	# str or empty
-            'value' : '', 	# str or empty
         }
     '''
-    # make worker for single
-    single = action['single']
-    if single == 'element':
+    # make worker for different selector type
+    _type = action['type']
+    if _type == 'element':
         worker = functools.partial(select_element, name=action['name'])
-    elif single == 'class':
+    elif _type == 'class':
         worker = functools.partial(select_class, name=action['name'])
-    elif single == 'id':
+    elif _type == 'id':
         worker = functools.partial(select_id, name=action['name'])
-    elif single == 'attr':
-        value = None
-        if 'value' in action:
-            value = action['value']
-        worker = functools.partial(select_attr, name=action['name'], value=value)
-    else:	# single == 'all'
+    elif _type == 'attr':
+        worker = functools.partial(select_attr, action=action)
+    else:	# _type == 'all'
         worker = functools.partial(select_all)
-    # do select with filter for multi
-    multi = action['multi']
-    if multi == 'sub':
+    # do select with filter
+    _filter = action['filter']
+    if _filter == 'sub':
         out = filter_list(raw_set, worker=worker)
-    elif multi == 'children':
+    elif _filter == 'children':
         out = filter_children(raw_set, worker=worker)
-    else:	# multi == 'tree'
+    else:	# _filter == 'tree'
         out = []
         for i in raw_set:
             one = filter_tree(i, worker=worker, include_root=tree_include_root)
