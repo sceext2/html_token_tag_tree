@@ -615,6 +615,10 @@ Example:
 >>> t = body.find('.test')
 >>> t.html()
 ['<div class="test" ><div>\n\t\t<span class="test" ><a id="test4" ></a></span>\n\t\t<a href="#" >test 5</a>\n\t\t<input type="button" >\n\t\t<input type="text" >\n\t</div></div>', '<span class="test" ><a id="test4" ></a></span>']
+>>> 
+```
+
+```
 >>> len(div)
 3
 >>> len(t)
@@ -625,6 +629,9 @@ Example:
 >>> tmp.html()
 ['<div><div class="test" ><div>\n\t\t<span class="test" ><a id="test4" ></a></span>\n\t\t<a href="#" >test 5</a>\n\t\t<input type="button" >\n\t\t<input type="text" >\n\t</div></div></div>', '<div class="test" ><div>\n\t\t<span class="test" ><a id="test4" ></a></span>\n\t\t<a href="#" >test 5</a>\n\t\t<input type="button" >\n\t\t<input type="text" >\n\t</div></div>', '<div>\n\t\t<span class="test" ><a id="test4" ></a></span>\n\t\t<a href="#" >test 5</a>\n\t\t<input type="button" >\n\t\t<input type="text" >\n\t</div>', '<span class="test" ><a id="test4" ></a></span>']
 >>> 
+```
+
+```
 >>> e = body.find('*')
 >>> e.name()
 ['h1', 'p', 'img', 'h2', 'p', 'section', 'div', 'div', 'div', 'span', 'a', 'a', 'input', 'input']
