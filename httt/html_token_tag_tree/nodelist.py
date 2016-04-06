@@ -28,6 +28,13 @@ class httt_nodelist(list):
         out.sort(key=lambda x: x._id)
         return out	# done
     
+    # for slice
+    def __getitem__(self, s):
+        raw = super().__getitem__(s)
+        if isinstance(raw, list):
+            return httt_nodelist(raw)
+        return raw
+    
     # add some easy functions
     
     def text(self):

@@ -5,7 +5,7 @@
 
 # html_token_tag_tree
 A simple read-only html static parse library. 
-(`httt version 0.1.3.0 test201604051914`)
+(`httt version 0.1.3.1 test201604061445`)
 
 **html_token_tag_tree** (*httt*) use a simple method to parse html and
 build the html tree struct. 
@@ -77,6 +77,8 @@ Python 3.5.1 (default, Mar  3 2016, 09:29:07)
 [GCC 5.3.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> import httt
+>>> httt.version
+'httt version 0.1.3.0 test201604051914'
 >>> with open('test/t1.html') as f:
 ...     raw_html = f.read()
 ... 
@@ -88,7 +90,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 ```
 >>> root = httt.create_tree(raw_html)
 >>> root
-<httt.html_token_tag_tree.tree.httt_tree object at 0x7f2cb008a080>
+<httt.html_token_tag_tree.tree.httt_tree object at 0x7f98c3313780>
 >>> 
 ```
 
@@ -156,15 +158,13 @@ True
 
 ```
 >>> script = root.find('script')
->>> script
-[<httt.html_token_tag_tree.tree.httt_tree object at 0x7f2cb008ec50>]
 >>> len(script)
 1
+>>> script.html()
+['<script type="text/javascript" >\n\tconsole.log(\'hello, world! \');\n</script>']
+>>> script[0].name
+'script'
 >>> s = script[0]
->>> s
-<httt.html_token_tag_tree.tree.httt_tree object at 0x7f2cb008ec50>
->>> s.html()
-'<script type="text/javascript" >\n\tconsole.log(\'hello, world! \');\n</script>'
 >>> s.text()
 ["\n\tconsole.log('hello, world! ');\n"]
 >>> s.attr['type']
@@ -173,17 +173,11 @@ True
 ```
 
 ```
->>> e = root.find('#test4')
->>> len(e)
-1
->>> e[0].html()
+>>> e = root.find('#test4')[0]
+>>> e.html()
 '<a id="test4" ></a>'
 >>> 
-```
-
-```
->>> e = root.find('#main div.test > * a[href], input[type=text]')
->>> e.html()
+>>> root.find('#main div.test > * a[href], input[type=text]').html()
 ['<a href="#" >test 5</a>', '<input type="text" >']
 >>> 
 ```

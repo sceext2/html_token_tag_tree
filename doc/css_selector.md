@@ -4,6 +4,8 @@
 
 # CSS selector examples of httt
 
+`httt version 0.1.2.0`
+
 
 ## 1. single CSS selector
 
